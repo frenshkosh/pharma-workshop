@@ -1,0 +1,31 @@
+
+    <div id='traitementFormCreation' class="container">
+        
+      <h1>Traitement Renseignement</h1>
+      <form [formGroup]="traitementForm">
+        <div class="form-group">
+          <label for="clef">Clef</label>
+          <input type="text" class="form-control" id="clef" name="Clef" formControlName="clef" required> 
+        </div>
+    
+        <div class="form-group">
+            <label for="choixPatient">Patient concern&eacute;</label>
+            <!-- <ng-select class="form-control" id="patientTraite" name="patientTraite"  [(ngModel)]="traitementCree.patient" required>
+              <option *ngFor="let patientTraite of patientele" [value]="patientTraite">{{patientTraite.nom}} + ' : '+ {{patientTraite.nom}} + ' : ' + {{patientTraite.nosecu}}</option>
+            </ng-select> -->
+            <p-dropdown id="choixPatientList"  [options]="this.patients$ | async" formControlName="patient" placeholder="Selectionnez un patient" optionLabel="nom" [showClear]="true"></p-dropdown>
+          </div>
+          <div class="form-group">
+            <label for="medicSearch">M&eacute;dicament</label>
+            <!--p-autoComplete [multiple]="true" title="Médicament" [(ngModel)]="selectedMedocs"  id="medicSearch" field="nom" [ngModelOptions]="{standalone: true}" [suggestions]="suggestedMedocs" (completeMethod)="searchMedoc($event)" [multiple]="true"></p-autoComplete-->
+            <p-autoComplete [multiple]="true" title="Médicament" formControlName="medicaments"  id="medicSearch" field="nom" [suggestions]="suggestedMedocs" (completeMethod)="searchMedoc($event)" [multiple]="true"></p-autoComplete>
+          </div>
+          <button id="createButton" mwlConfirmationPopover
+          [popoverTitle]="'Confirmation'"
+          [popoverMessage]="'êtes-vous sûr?'"
+          placement="left"
+          (confirm)="createTraitement(traitementForm.value)"
+          type="submit" class="btn btn-save btn-primary" [disabled]="!traitementForm.valid">
+          <span class="glyphicon glyphicon-floppy-disk"></span> Sauvegarder</button>
+      </form>
+    </div>

@@ -1,0 +1,28 @@
+<!--p-autoComplete [(ngModel)]="patient" [dropdown]="true" field="nom" [suggestions]="results"  (completeMethod)="search($event)">
+
+</p-autoComplete-->
+
+<table>
+    <thead>
+        <!--tr>
+            <th colspan="2">Patient trouv&eacute;: {{patient?.nom||'none'}}</th>
+        </tr-->
+      <tr>
+        <th>Id</th>
+        <th>Nom</th>
+        <th>N&deg;Secu</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let patos of patients$| async;">
+        <td>{{ patos?.id }}</td>
+        <td>{{ patos?.nom }}</td>
+        <td>{{ patos?.nosecu }}</td>
+        <td>
+          <div>
+            <button class="btn" (click)="deletePatient(patos?.id)">Supprimer</button>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+</table>

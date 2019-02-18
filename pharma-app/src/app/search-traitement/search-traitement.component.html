@@ -1,0 +1,79 @@
+<!--p-autoComplete [(ngModel)]="traitement" field="clef" id="traitSearch" [dropdown]="true"  [suggestions]="results"  (completeMethod)="search($event)">
+  <ng-template let-traitement pTemplate="item">
+    <div class="ui-helper-clearfix">
+        <div style="font-size:12px;float:right;margin:10px 10px 0 0">{{fullName(traitement)}}</div>
+    </div>
+</ng-template>
+</p-autoComplete-->
+
+<!--div *ngIf="traitement && traitement.clef" id="traitementTable"-->
+<div  id="traitementTable">
+  <table>
+      <thead>
+          <!--tr>
+              <th colspan="2">Traitement trouv&eacute;: {{traitement?.clef||'none'}}</th>
+          </tr-->
+        <tr>
+          <th>Clef</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!--tr *ngIf="traitement"-->
+        <tr *ngFor="let traitement of traitements$ | async;">
+          <td>{{ traitement?.clef + ':' + traitement?.patient?.nom }}</td>
+          <td><p-splitButton label="Voir" icon="pi pi-file" (click)="setCurrent(traitement)" [model]="items"></p-splitButton></td>
+          <td>
+              <div>
+                <button class="btn" (click)="deleteTraitement(traitement?.id)">Supprimer</button>
+              </div>
+            </td>
+        </tr>
+        
+      </tbody>
+  </table>
+</div>
+<div id="visu">
+    <span *ngIf="this.switch === 0">Rien &agrave; visualiser</span>
+    <table *ngIf="this.switch === 1">
+        <thead>
+            <tr>
+                <th colspan="2">Patient : {{this.currentTraitement.patient?.nom||'none'}}</th>
+            </tr>
+          <tr>
+            <th>Id</th>
+            <th>Nom</th>
+            <th>N&deg;Secu</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngIf="this.currentTraitement.patient">
+            <td>{{ this.currentTraitement.patient?.id }}</td>
+            <td>{{ this.currentTraitement.patient?.nom }}</td>
+            <td>{{ this.currentTraitement.patient?.nosecu }}</td>
+          </tr>
+        </tbody>
+    </table>
+    <table *ngIf="this.switch === 2">
+        <thead>
+          <tr>
+            <th colspan="3">M&eacute;dicaments: </th>
+        </tr>
+          <tr>
+            <th>Médicament</th>
+            <th>Indication</th>
+            <th>Compatible</th>
+            <th>Type Administration</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let medicament of this.currentTraitement.medicaments">
+            <td>{{ medicament?.nom }}</td>
+            <td>{{ medicament?.indication }}</td>            
+            <td>{{ medicament?.compatible }}</td>
+            <td>{{ medicament?.typeAdministration }}</td>
+          </tr>
+        </tbody>
+    </table>
+</div>
+

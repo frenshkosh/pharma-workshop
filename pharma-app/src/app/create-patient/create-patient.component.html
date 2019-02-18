@@ -1,0 +1,27 @@
+<!--div *ngIf="!patientCree">
+  <button type="button" id='newPatient' class="btn btn-default" (click)="creerPatient()">Nouveau Patient</button>
+  </div>
+  <div id='patientFormCreation' class="container" *ngIf="patientCree"-->
+    <div id='patientFormCreation' class="container">
+    <h1>Patient Renseignement</h1>
+    <form [formGroup]="patientForm">
+      <div class="form-group">
+        <label for="nom">Nom</label>
+        <input type="text" formControlName="nom" class="form-control" id="nom" name="Nom"> 
+      </div>
+  
+      <div class="form-group">
+        <label for="nosecu">n&deg; secu</label>
+        <input type="text" formControlName="nosecu" class="form-control" name="NoSecu" id="nosecu">
+      </div>
+  
+  
+      <button id="createButton" mwlConfirmationPopover
+      [popoverTitle]="'Confirmation'"
+      [popoverMessage]="'êtes-vous sûr?'"
+      placement="left"
+      (confirm)="createPatient(patientForm.value)"
+      type="submit" class="btn btn-save btn-primary" [disabled]="!patientForm.valid">
+      <span class="glyphicon glyphicon-floppy-disk"></span> Sauvegarder</button>
+    </form>
+  </div>

@@ -1,0 +1,40 @@
+<!--div *ngIf="!medicamentCree">
+<button type="button" id='newMedicament' class="btn btn-default" (click)="creeMedicament()">Nouveau M&eacute;dicament</button>
+</div>
+<div class="container" id='medicamentFormCreation' *ngIf="medicamentCree"-->
+<div class="container" id='medicamentFormCreation'>
+    
+  <h1>Medicament Renseignement</h1>
+  <form [formGroup]="medicamentForm">
+    <div class="form-group">
+      <label for="nom">Nom</label>
+      <input type="text" formControlName="nom" class="form-control" id="nom" name="Nom"> 
+    </div>
+
+    <div class="form-group">
+      <label for="indication">Indication</label>
+      <input type="text" formControlName="indication" class="form-control" name="Indication" id="indication">
+    </div>
+
+    <div class="form-group">
+      <label for="typeAdministration">Administration</label>
+      <select class="form-control" formControlName="typeAdministration" id="power" name="typeAdministration">
+        <option *ngFor="let typeAdministration of administrationTypes" [value]="typeAdministration">{{typeAdministration}}</option>
+      </select>
+    </div>
+    <div class="form-group">
+    <p-checkbox name="compatible" formControlName="compatible" label="Compatible" binary="true">
+    </p-checkbox>
+    </div>
+    <!--button [routerLink]="['/search-medicament']" id="createButton" routerLinkActive="router-link-active"  type="submit" (click)="addMedicament();" class="btn btn-success">Submit</button-->
+   
+    <button id="createButton" mwlConfirmationPopover
+              [popoverTitle]="'Confirmation'"
+              [popoverMessage]="'êtes-vous sûr?'"
+              placement="left"
+              (confirm)="createMedicament(medicamentForm.value)"
+              type="submit" class="btn btn-save btn-primary" [disabled]="!medicamentForm.valid">
+        <span class="glyphicon glyphicon-floppy-disk"></span> Sauvegarder</button>
+   
+  </form>
+</div>

@@ -1,0 +1,30 @@
+<!--p-autoComplete [(ngModel)]="medicament" [dropdown]="true" field="nom" [suggestions]="results"  (completeMethod)="search($event)">
+
+</p-autoComplete-->
+
+<table>
+    <thead>
+      <!--tr>
+        <th colspan="3">M&eacute;dicament: {{medicament?.nom||'none'}}</th>
+    </tr-->
+      <tr>
+        <th>Médicament</th>
+        <th>Indication</th>
+        <th>Compatible</th>
+        <th>Type Administration</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let medoc of medicaments$| async;">
+        <td>{{ medoc?.nom }}</td>
+        <td>{{ medoc?.indication }}</td>
+        <td>{{ medoc?.compatible }}</td>
+        <td>{{ medoc?.typeAdministration }}</td>
+        <td>
+          <div>
+            <button class="btn" (click)="deleteMedicament(medoc.id)">Supprimer</button>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+</table>
