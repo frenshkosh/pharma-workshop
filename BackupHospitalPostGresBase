@@ -1,0 +1,389 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 11.1
+-- Dumped by pg_dump version 11.1
+
+-- Started on 2019-02-18 16:48:42
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+SET row_security = off;
+
+DROP DATABASE hospital;
+--
+-- TOC entry 2861 (class 1262 OID 16410)
+-- Name: hospital; Type: DATABASE; Schema: -; Owner: postgres
+--
+
+CREATE DATABASE hospital WITH TEMPLATE = template0 ENCODING = 'UTF8' LC_COLLATE = 'French_France.1252' LC_CTYPE = 'French_France.1252';
+
+
+ALTER DATABASE hospital OWNER TO postgres;
+
+\connect hospital
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- TOC entry 6 (class 2615 OID 16411)
+-- Name: hospitalmanager; Type: SCHEMA; Schema: -; Owner: postgres
+--
+
+CREATE SCHEMA hospitalmanager;
+
+
+ALTER SCHEMA hospitalmanager OWNER TO postgres;
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- TOC entry 198 (class 1259 OID 16414)
+-- Name: MEDICAMENT; Type: TABLE; Schema: hospitalmanager; Owner: postgres
+--
+
+CREATE TABLE hospitalmanager."MEDICAMENT" (
+    id integer NOT NULL,
+    compatible boolean,
+    typeadministration integer,
+    nom text NOT NULL,
+    indication text
+);
+
+
+ALTER TABLE hospitalmanager."MEDICAMENT" OWNER TO postgres;
+
+--
+-- TOC entry 197 (class 1259 OID 16412)
+-- Name: MEDICAMENT_id_seq; Type: SEQUENCE; Schema: hospitalmanager; Owner: postgres
+--
+
+CREATE SEQUENCE hospitalmanager."MEDICAMENT_id_seq"
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE hospitalmanager."MEDICAMENT_id_seq" OWNER TO postgres;
+
+--
+-- TOC entry 2862 (class 0 OID 0)
+-- Dependencies: 197
+-- Name: MEDICAMENT_id_seq; Type: SEQUENCE OWNED BY; Schema: hospitalmanager; Owner: postgres
+--
+
+ALTER SEQUENCE hospitalmanager."MEDICAMENT_id_seq" OWNED BY hospitalmanager."MEDICAMENT".id;
+
+
+--
+-- TOC entry 202 (class 1259 OID 16465)
+-- Name: PATIENT; Type: TABLE; Schema: hospitalmanager; Owner: postgres
+--
+
+CREATE TABLE hospitalmanager."PATIENT" (
+    id integer NOT NULL,
+    nom text NOT NULL,
+    nosecu text
+);
+
+
+ALTER TABLE hospitalmanager."PATIENT" OWNER TO postgres;
+
+--
+-- TOC entry 201 (class 1259 OID 16463)
+-- Name: PATIENT_id_seq; Type: SEQUENCE; Schema: hospitalmanager; Owner: postgres
+--
+
+CREATE SEQUENCE hospitalmanager."PATIENT_id_seq"
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE hospitalmanager."PATIENT_id_seq" OWNER TO postgres;
+
+--
+-- TOC entry 2863 (class 0 OID 0)
+-- Dependencies: 201
+-- Name: PATIENT_id_seq; Type: SEQUENCE OWNED BY; Schema: hospitalmanager; Owner: postgres
+--
+
+ALTER SEQUENCE hospitalmanager."PATIENT_id_seq" OWNED BY hospitalmanager."PATIENT".id;
+
+
+--
+-- TOC entry 205 (class 1259 OID 16492)
+-- Name: REL_TRAITEMENT_MEDICAMENT; Type: TABLE; Schema: hospitalmanager; Owner: postgres
+--
+
+CREATE TABLE hospitalmanager."REL_TRAITEMENT_MEDICAMENT" (
+    id_traitement integer NOT NULL,
+    id_medicament integer NOT NULL
+);
+
+
+ALTER TABLE hospitalmanager."REL_TRAITEMENT_MEDICAMENT" OWNER TO postgres;
+
+--
+-- TOC entry 204 (class 1259 OID 16476)
+-- Name: TRAITEMENT; Type: TABLE; Schema: hospitalmanager; Owner: postgres
+--
+
+CREATE TABLE hospitalmanager."TRAITEMENT" (
+    id integer NOT NULL,
+    clef text NOT NULL,
+    id_patient integer NOT NULL,
+    multi boolean NOT NULL
+);
+
+
+ALTER TABLE hospitalmanager."TRAITEMENT" OWNER TO postgres;
+
+--
+-- TOC entry 203 (class 1259 OID 16474)
+-- Name: TRAITEMENT_id_seq; Type: SEQUENCE; Schema: hospitalmanager; Owner: postgres
+--
+
+CREATE SEQUENCE hospitalmanager."TRAITEMENT_id_seq"
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE hospitalmanager."TRAITEMENT_id_seq" OWNER TO postgres;
+
+--
+-- TOC entry 2864 (class 0 OID 0)
+-- Dependencies: 203
+-- Name: TRAITEMENT_id_seq; Type: SEQUENCE OWNED BY; Schema: hospitalmanager; Owner: postgres
+--
+
+ALTER SEQUENCE hospitalmanager."TRAITEMENT_id_seq" OWNED BY hospitalmanager."TRAITEMENT".id;
+
+
+--
+-- TOC entry 200 (class 1259 OID 16425)
+-- Name: TYPE_ADMINISTRATION; Type: TABLE; Schema: hospitalmanager; Owner: postgres
+--
+
+CREATE TABLE hospitalmanager."TYPE_ADMINISTRATION" (
+    id integer NOT NULL,
+    type text NOT NULL
+);
+
+
+ALTER TABLE hospitalmanager."TYPE_ADMINISTRATION" OWNER TO postgres;
+
+--
+-- TOC entry 199 (class 1259 OID 16423)
+-- Name: TYPE_ADMINISTRATION_id_seq; Type: SEQUENCE; Schema: hospitalmanager; Owner: postgres
+--
+
+CREATE SEQUENCE hospitalmanager."TYPE_ADMINISTRATION_id_seq"
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE hospitalmanager."TYPE_ADMINISTRATION_id_seq" OWNER TO postgres;
+
+--
+-- TOC entry 2866 (class 0 OID 0)
+-- Dependencies: 199
+-- Name: TYPE_ADMINISTRATION_id_seq; Type: SEQUENCE OWNED BY; Schema: hospitalmanager; Owner: postgres
+--
+
+ALTER SEQUENCE hospitalmanager."TYPE_ADMINISTRATION_id_seq" OWNED BY hospitalmanager."TYPE_ADMINISTRATION".id;
+
+
+--
+-- TOC entry 2712 (class 2604 OID 16417)
+-- Name: MEDICAMENT id; Type: DEFAULT; Schema: hospitalmanager; Owner: postgres
+--
+
+ALTER TABLE ONLY hospitalmanager."MEDICAMENT" ALTER COLUMN id SET DEFAULT nextval('hospitalmanager."MEDICAMENT_id_seq"'::regclass);
+
+
+--
+-- TOC entry 2714 (class 2604 OID 16468)
+-- Name: PATIENT id; Type: DEFAULT; Schema: hospitalmanager; Owner: postgres
+--
+
+ALTER TABLE ONLY hospitalmanager."PATIENT" ALTER COLUMN id SET DEFAULT nextval('hospitalmanager."PATIENT_id_seq"'::regclass);
+
+
+--
+-- TOC entry 2715 (class 2604 OID 16479)
+-- Name: TRAITEMENT id; Type: DEFAULT; Schema: hospitalmanager; Owner: postgres
+--
+
+ALTER TABLE ONLY hospitalmanager."TRAITEMENT" ALTER COLUMN id SET DEFAULT nextval('hospitalmanager."TRAITEMENT_id_seq"'::regclass);
+
+
+--
+-- TOC entry 2713 (class 2604 OID 16428)
+-- Name: TYPE_ADMINISTRATION id; Type: DEFAULT; Schema: hospitalmanager; Owner: postgres
+--
+
+ALTER TABLE ONLY hospitalmanager."TYPE_ADMINISTRATION" ALTER COLUMN id SET DEFAULT nextval('hospitalmanager."TYPE_ADMINISTRATION_id_seq"'::regclass);
+
+
+--
+-- TOC entry 2724 (class 2606 OID 16491)
+-- Name: TRAITEMENT CLEF_UNIQUE; Type: CONSTRAINT; Schema: hospitalmanager; Owner: postgres
+--
+
+ALTER TABLE ONLY hospitalmanager."TRAITEMENT"
+    ADD CONSTRAINT "CLEF_UNIQUE" UNIQUE (clef);
+
+
+--
+-- TOC entry 2717 (class 2606 OID 16422)
+-- Name: MEDICAMENT MEDICAMENT_pkey; Type: CONSTRAINT; Schema: hospitalmanager; Owner: postgres
+--
+
+ALTER TABLE ONLY hospitalmanager."MEDICAMENT"
+    ADD CONSTRAINT "MEDICAMENT_pkey" PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2722 (class 2606 OID 16473)
+-- Name: PATIENT PATIENT_pkey; Type: CONSTRAINT; Schema: hospitalmanager; Owner: postgres
+--
+
+ALTER TABLE ONLY hospitalmanager."PATIENT"
+    ADD CONSTRAINT "PATIENT_pkey" PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2728 (class 2606 OID 16496)
+-- Name: REL_TRAITEMENT_MEDICAMENT REL_TRAITEMENT_MEDICAMENT_pkey; Type: CONSTRAINT; Schema: hospitalmanager; Owner: postgres
+--
+
+ALTER TABLE ONLY hospitalmanager."REL_TRAITEMENT_MEDICAMENT"
+    ADD CONSTRAINT "REL_TRAITEMENT_MEDICAMENT_pkey" PRIMARY KEY (id_traitement, id_medicament);
+
+
+--
+-- TOC entry 2726 (class 2606 OID 16484)
+-- Name: TRAITEMENT TRAITEMENT_pkey; Type: CONSTRAINT; Schema: hospitalmanager; Owner: postgres
+--
+
+ALTER TABLE ONLY hospitalmanager."TRAITEMENT"
+    ADD CONSTRAINT "TRAITEMENT_pkey" PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2720 (class 2606 OID 16433)
+-- Name: TYPE_ADMINISTRATION TYPE_ADMINISTRATION_pkey; Type: CONSTRAINT; Schema: hospitalmanager; Owner: postgres
+--
+
+ALTER TABLE ONLY hospitalmanager."TYPE_ADMINISTRATION"
+    ADD CONSTRAINT "TYPE_ADMINISTRATION_pkey" PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2729 (class 1259 OID 16518)
+-- Name: fki_FK_MEDICAMENT; Type: INDEX; Schema: hospitalmanager; Owner: postgres
+--
+
+CREATE INDEX "fki_FK_MEDICAMENT" ON hospitalmanager."REL_TRAITEMENT_MEDICAMENT" USING btree (id_medicament);
+
+
+--
+-- TOC entry 2730 (class 1259 OID 16512)
+-- Name: fki_FK_TRAITEMENT; Type: INDEX; Schema: hospitalmanager; Owner: postgres
+--
+
+CREATE INDEX "fki_FK_TRAITEMENT" ON hospitalmanager."REL_TRAITEMENT_MEDICAMENT" USING btree (id_traitement);
+
+
+--
+-- TOC entry 2718 (class 1259 OID 16446)
+-- Name: fki_typeadministration; Type: INDEX; Schema: hospitalmanager; Owner: postgres
+--
+
+CREATE INDEX fki_typeadministration ON hospitalmanager."MEDICAMENT" USING btree (typeadministration);
+
+
+--
+-- TOC entry 2734 (class 2606 OID 16513)
+-- Name: REL_TRAITEMENT_MEDICAMENT FK_MEDICAMENT; Type: FK CONSTRAINT; Schema: hospitalmanager; Owner: postgres
+--
+
+ALTER TABLE ONLY hospitalmanager."REL_TRAITEMENT_MEDICAMENT"
+    ADD CONSTRAINT "FK_MEDICAMENT" FOREIGN KEY (id_medicament) REFERENCES hospitalmanager."MEDICAMENT"(id) ON DELETE CASCADE;
+
+
+--
+-- TOC entry 2732 (class 2606 OID 16519)
+-- Name: TRAITEMENT FK_PATIENT; Type: FK CONSTRAINT; Schema: hospitalmanager; Owner: postgres
+--
+
+ALTER TABLE ONLY hospitalmanager."TRAITEMENT"
+    ADD CONSTRAINT "FK_PATIENT" FOREIGN KEY (id_patient) REFERENCES hospitalmanager."PATIENT"(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 2733 (class 2606 OID 16507)
+-- Name: REL_TRAITEMENT_MEDICAMENT FK_TRAITEMENT; Type: FK CONSTRAINT; Schema: hospitalmanager; Owner: postgres
+--
+
+ALTER TABLE ONLY hospitalmanager."REL_TRAITEMENT_MEDICAMENT"
+    ADD CONSTRAINT "FK_TRAITEMENT" FOREIGN KEY (id_traitement) REFERENCES hospitalmanager."TRAITEMENT"(id) ON DELETE CASCADE;
+
+
+--
+-- TOC entry 2731 (class 2606 OID 16441)
+-- Name: MEDICAMENT typeadministration; Type: FK CONSTRAINT; Schema: hospitalmanager; Owner: postgres
+--
+
+ALTER TABLE ONLY hospitalmanager."MEDICAMENT"
+    ADD CONSTRAINT typeadministration FOREIGN KEY (typeadministration) REFERENCES hospitalmanager."TYPE_ADMINISTRATION"(id);
+
+
+--
+-- TOC entry 2865 (class 0 OID 0)
+-- Dependencies: 200
+-- Name: TABLE "TYPE_ADMINISTRATION"; Type: ACL; Schema: hospitalmanager; Owner: postgres
+--
+
+REVOKE ALL ON TABLE hospitalmanager."TYPE_ADMINISTRATION" FROM postgres;
+GRANT ALL ON TABLE hospitalmanager."TYPE_ADMINISTRATION" TO postgres WITH GRANT OPTION;
+
+
+-- Completed on 2019-02-18 16:48:42
+
+--
+-- PostgreSQL database dump complete
+--
+
