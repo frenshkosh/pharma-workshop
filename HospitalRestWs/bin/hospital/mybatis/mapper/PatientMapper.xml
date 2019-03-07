@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="hospital.mybatis.mapper.PatientMapper">
+
+	<resultMap id="patient" type="hospital.model.Patient">
+		<id javaType="Integer" property="id" column="id"/>
+	    <result property="nom" column="nom"/>
+	    <result property="nosecu" column="nosecu"/>
+	</resultMap>
+
+	<select id="getPatients" resultMap="patient">
+	 	SELECT pat.id as id, pat.nom as nom, pat.nosecu as nosecu FROM hospitalmanager."PATIENT" pat
+	</select>
+	
+	<select id="getPatientByName" resultMap="patient">
+	 	SELECT pat.id as id, pat.nom as nom, pat.nosecu as nosecu FROM hospitalmanager."PATIENT" pat
+	 	WHERE pat.nom like upper('%'||#{name}||'%')
+	</select>
+	
+	<select id="getPatientById" resultMap="patient">
+	 	SELECT pat.id as id, pat.nom as nom, pat.nosecu as nosecu FROM hospitalmanager."PATIENT" pat
+	 	WHERE pat.id = #{id}
+	</select>
+	
+	<delete id="deletePatient">
+		delete from hospitalmanager."PATIENT"
+		WHERE id = #{id}
+	</delete>
+	
+	<insert id="addPatient">
+		INSERT
+		INTO hospitalmanager."PATIENT"
+		  (
+		    nom,
+		    nosecu
+		  )
+		  VALUES
+		  (
+		    upper(#{patient.nom}),
+		    #{patient.nosecu}
+		  )
+	</insert>
+
+</mapper>

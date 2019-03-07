@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="hospital.mybatis.mapper.TraitementMapper">
+
+	<resultMap id="traitement" type="hospital.model.Traitement">
+		<id javaType="Integer" property="id" column="id"/>
+	    <result property="clef" column="clef"/>
+	    <result property="multi" column="multi"/>
+	    <association select="hospital.mybatis.mapper.PatientMapper.getPatientById" property="patient" javaType="hospital.model.Patient" column="id_patient" foreignColumn="id" />
+	    <!-- collection select="hospital.mybatis.mapper.MedicamentMapper.getMedicamentById" property="medicaments" column="id_medicament" foreignColumn="id" ></collection-->
+	    <collection property="medicaments" ofType="hospital.model.Medicament">
+	    	<id javaType="Integer" property="id" column="id_medicament"/>
+	    	<result property="nom" column="nom_medicament"/>
+	    	<result property="indication" column="indication_medicament"/>
+	    	<result property="compatible" column="compatible_medicament"/>
+	    	<result property="typeAdministration" column="typeadministration_medicament"/>
+	    </collection>
+	</resultMap>
+
+	<select id="getTraitements" resultMap="traitement">
+	 	select trt.id, trt.clef, trt.multi, trt.id_patient, rel.id_medicament, med.nom as nom_medicament, med.indication as indication_medicament, med.compatible as compatible_medicament, ta.type as typeAdministration_medicament from hospitalmanager."TRAITEMENT" trt
+		LEFT JOIN hospitalmanager."REL_TRAITEMENT_MEDICAMENT" rel ON rel.id_traitement = trt.id
+		LEFT JOIN hospitalmanager."MEDICAMENT" med ON rel.id_medicament = med.id
+		JOIN  hospitalmanager."TYPE_ADMINISTRATION" ta on ta.id = med.typeadministration
+	</select>
+	
+	<select id="getTraitementByClef" resultMap="traitement">
+	 	select trt.id, trt.clef, trt.multi, trt.id_patient, rel.id_medicament, med.nom as nom_medicament, med.indication as indication_medicament, med.compatible as compatible_medicament, ta.type as typeAdministration_medicament from hospitalmanager."TRAITEMENT" trt
+		LEFT JOIN hospitalmanager."REL_TRAITEMENT_MEDICAMENT" rel ON rel.id_traitement = trt.id
+		LEFT JOIN hospitalmanager."MEDICAMENT" med ON rel.id_medicament = med.id
+		JOIN  hospitalmanager."TYPE_ADMINISTRATION" ta on ta.id = med.typeadministration
+	 	WHERE trt.clef like upper('%'||#{clef}||'%')
+	</select>
+	
+	<select id="getIdTraitementByClef" resultType="Integer">
+		select id from hospitalmanager."TRAITEMENT" where clef = upper(#{clef})
+	</select>
+	
+	<delete id="deleteTraitement">
+		delete from hospitalmanager."TRAITEMENT"
+		WHERE id = #{id}
+	</delete>
+	
+	<insert id="addTraitement">
+		INSERT
+		INTO hospitalmanager."TRAITEMENT"
+		  (
+		    clef,
+		    multi,
+		    id_patient
+		  )
+		  VALUES
+		  (
+		    upper(#{traitement.clef}),
+		    #{traitement.multi},
+		    #{traitement.patient.id}
+		  )
+	</insert>
+	<insert id="addRelTraitementMedicament">
+		INSERT
+		INTO hospitalmanager."REL_TRAITEMENT_MEDICAMENT"
+		  (
+		    id_traitement,
+		    id_medicament
+		  )
+		  VALUES
+		  (
+		    #{idTraitement},
+		    #{idMedicament}
+		  )
+	</insert>
+
+</mapper>

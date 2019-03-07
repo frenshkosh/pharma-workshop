@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="hospital.mybatis.mapper.MedicamentMapper">
+
+	<resultMap id="medicament" type="hospital.model.Medicament">
+		<id javaType="Integer" property="id" column="id"/>
+	    <result property="nom" column="nom"/>
+	    <result property="indication" column="indication"/>
+	    <result property="compatible" column="compatible"/>
+	    <result property="typeAdministration" column="typeadministration"/>
+	</resultMap>
+
+	<select id="getMedicaments" resultMap="medicament">
+	 	SELECT med.id as id, med.nom as nom, med.indication as indication, med.compatible as compatible, ta.type as typeAdministration FROM hospitalmanager."MEDICAMENT" med
+	 	JOIN  hospitalmanager."TYPE_ADMINISTRATION" ta on ta.id = med.typeadministration
+	</select>
+	
+	<select id="getMedicamentById" resultMap="medicament">
+		SELECT med.id as id, med.nom as nom, med.indication as indication, med.compatible as compatible, ta.type as typeAdministration FROM hospitalmanager."MEDICAMENT" med
+	 	JOIN  hospitalmanager."TYPE_ADMINISTRATION" ta on ta.id = med.typeadministration
+	 	Where med.id = #{id}
+	</select>
+	
+	<select id="getMedicamentByName" resultMap="medicament">
+	 	SELECT med.id as id, med.nom as nom, med.indication as indication, med.compatible as compatible, ta.type as typeAdministration FROM hospitalmanager."MEDICAMENT" med
+	 	JOIN  hospitalmanager."TYPE_ADMINISTRATION" ta on ta.id = med.typeadministration
+	 	WHERE med.nom like upper('%'||#{name}||'%')
+	</select>
+	
+	<delete id="deleteMedicament">
+		delete from hospitalmanager."MEDICAMENT"
+		WHERE id = #{id}
+	</delete>
+	
+	<insert id="addMedicament">
+		INSERT
+		INTO hospitalmanager."MEDICAMENT"
+		  (
+		    nom,
+		    indication,
+		    compatible,
+		    typeadministration
+		  )
+		  VALUES
+		  (
+		    upper(#{medicament.nom}),
+		    #{medicament.indication},
+		    #{medicament.compatible},
+		    (select ta.id from hospitalmanager."TYPE_ADMINISTRATION" ta WHERE ta.type = #{medicament.typeAdministration} )
+		  )
+	</insert>
+
+</mapper>
